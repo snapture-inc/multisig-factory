@@ -48,7 +48,6 @@ export async function createPasskey(): Promise<PasskeyArgType> {
  */
 export function storePasskeyInLocalStorage(passkey: PasskeyArgType) {
   const passkeys = loadPasskeysFromLocalStorage();
-
   passkeys.push(passkey);
 
   localStorage.setItem(STORAGE_PASSKEY_LIST_KEY, JSON.stringify(passkeys));
@@ -60,7 +59,6 @@ export function storePasskeyInLocalStorage(passkey: PasskeyArgType) {
  */
 export function loadPasskeysFromLocalStorage(): PasskeyArgType[] {
   const passkeysStored = localStorage.getItem(STORAGE_PASSKEY_LIST_KEY);
-
   const passkeyIds = passkeysStored ? JSON.parse(passkeysStored) : [];
 
   return passkeyIds;
@@ -73,7 +71,6 @@ export function loadPasskeysFromLocalStorage(): PasskeyArgType[] {
  */
 export function getPasskeyFromRawId(passkeyRawId: string): PasskeyArgType {
   const passkeys = loadPasskeysFromLocalStorage();
-
   const passkey = passkeys.find((passkey) => passkey.rawId === passkeyRawId)!;
 
   return passkey;

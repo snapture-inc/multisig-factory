@@ -1,60 +1,52 @@
 import { useState } from 'react';
 
+import { useSDK } from '@metamask/sdk-react';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import { Button, Divider, Paper, Stack, Typography } from '@mui/material';
 import { PasskeyArgType } from '@safe-global/protocol-kit';
 
-import { loadPasskeysFromLocalStorage } from '@/app/_lib/passkey';
-
 type props = {
   handleCreatePasskey: () => void;
-  handleSelectPasskey: (passkey: PasskeyArgType) => void;
 };
 
-function LoginWithPasskey({ handleCreatePasskey, handleSelectPasskey }: props) {
+function LoginWithPasskey({ handleCreatePasskey }: props) {
   const [passkeys, setPasskeys] = useState<PasskeyArgType[]>([]);
+  const { sdk, connected, connecting, provider, chainId } = useSDK();
+
+  async function handleConnect() {
+    try {
+      const accounts = await sdk?.connect();
+      setPasskeys(accounts?.[0]);
+    } catch (err) {
+      console.warn('Failed to connect..', err);
+    }
+  }
 
   return (
     <Paper sx={{ margin: '32px auto 0' }}>
       <Stack padding={4}>
         <Typography textAlign={'center'} variant="h1" color={'primary'}>
-          Use Safe Account via Passkeys
+          Snapture
         </Typography>
 
         <Typography textAlign={'center'} marginBottom={8} marginTop={8} variant="h4">
-          Create a new Safe using passkeys
+          <span>Smart Contract Factory.</span>
+          <br />
+          <span>Create your smart contract with ease.</span>
         </Typography>
 
-        <Button
-          onClick={handleCreatePasskey}
-          startIcon={<FingerprintIcon />}
-          variant="outlined"
-          sx={{ marginBottom: '24px' }}
-        >
-          Create a new passkey
+        <Button onClick={handleCreatePasskey} startIcon={<FingerprintIcon />} variant="outlined">
+          Create a new account
         </Button>
 
-        <Divider sx={{ marginTop: '32px' }}>
+        <Divider sx={{ margin: '20px' }}>
           <Typography variant="caption" color="GrayText">
             OR
           </Typography>
         </Divider>
 
-        <Typography textAlign={'center'} marginBottom={8} marginTop={8} variant="h4">
-          Connect existing Safe using an existing passkey
-        </Typography>
-
-        <Button
-          startIcon={<FingerprintIcon />}
-          variant="contained"
-          onClick={async () => {
-            const passkeys = loadPasskeysFromLocalStorage();
-
-            setPasskeys(passkeys);
-            handleSelectPasskey(passkeys[0]);
-          }}
-        >
-          Use an existing passkey
+        <Button startIcon={<FingerprintIcon />} variant="contained" onClick={handleConnect}>
+          Connect an existing account
         </Button>
       </Stack>
     </Paper>
