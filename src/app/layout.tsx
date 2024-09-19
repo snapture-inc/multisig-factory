@@ -27,26 +27,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <MetaMaskContextProvider>
           <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
-              <nav
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  padding: '1rem',
-                }}
-              ></nav>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between',
-                  marginLeft: '40px',
-                  marginRight: '40px',
-                }}
-              >
-                {children}
-              </div>
-            </ThemeProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </AppRouterCacheProvider>
         </MetaMaskContextProvider>
       </body>

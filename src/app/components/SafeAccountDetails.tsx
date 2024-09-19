@@ -13,7 +13,7 @@ type props = {
   passkey: PasskeyArgType;
 };
 
-function SafeAccountDetails({ passkey }: props) {
+const SafeAccountDetails = ({ passkey }: props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [safeAddress, setSafeAddress] = useState<string>();
   const [isSafeDeployed, setIsSafeDeployed] = useState<boolean>();
@@ -100,7 +100,7 @@ function SafeAccountDetails({ passkey }: props) {
       </Stack>
     </Paper>
   );
-}
+};
 
 export default SafeAccountDetails;
 

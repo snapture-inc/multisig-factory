@@ -21,7 +21,7 @@ const typography: TypographyOptions = {
 
 const darkPalette = {
   text: {
-    primary: '#FFFFFF',
+    primary: '#000000',
     secondary: '#636669',
     disabled: '#636669',
   },

@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { PasskeyArgType } from '@safe-global/protocol-kit';
 
 import { createPasskey, storePasskeyInLocalStorage } from '@/app/_lib/passkey';
-import LoginWithPasskey from '@/app/components/LoginWithPasskey';
+import Login from '@/app/components/Login';
 import SafeAccountDetails from '@/app/components/SafeAccountDetails';
 
-function Home() {
+const Home = () => {
   const [selectedPasskey, setSelectedPasskey] = useState<PasskeyArgType>();
 
   async function handleCreatePasskey() {
@@ -23,10 +23,10 @@ function Home() {
       {selectedPasskey ? (
         <SafeAccountDetails passkey={selectedPasskey} />
       ) : (
-        <LoginWithPasskey handleCreatePasskey={handleCreatePasskey} />
+        <Login handleCreatePasskey={handleCreatePasskey} />
       )}
     </>
   );
-}
+};
 
 export default Home;
