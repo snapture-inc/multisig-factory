@@ -19,7 +19,7 @@ function createData(name: string, proposals: number, approved: number, amount: n
   return { name, proposals, approved, amount };
 }
 
-const rows = [createData('Improvement to Changi Road', 20, 6, 24000)];
+const rows = [createData('Improvement to Building A', 20, 6, 24000)];
 
 const StyledTableCell = styled(TableCell)({
   color: 'white',

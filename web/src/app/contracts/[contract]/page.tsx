@@ -4,12 +4,10 @@ import { useState } from 'react';
 
 import { Box, Button, Container, Dialog, DialogContent, DialogTitle } from '@mui/material';
 
-import Navbar from '@/app/components/Navbar';
+import TransactionForm from './components/TransactionForm';
+import TransactionsTable from './components/TransactionsTable';
 
-import ContractForm from './components/ContractForm';
-import ContractsTable from './components/ContractsTable';
-
-const Contracts = () => {
+const Transactions = () => {
   const [modal, setModal] = useState(false);
 
   const handleModalOpen = () => {
@@ -24,11 +22,11 @@ const Contracts = () => {
       <Box>
         <Container style={{ margin: '20px' }}>
           <Button variant="contained" onClick={handleModalOpen}>
-            Create contract
+            Create transaction
           </Button>
         </Container>
         <Container style={{ margin: '20px' }}>
-          <ContractsTable />
+          <TransactionsTable />
         </Container>
       </Box>
       <Dialog
@@ -42,13 +40,13 @@ const Contracts = () => {
           },
         }}
       >
-        <DialogTitle>New Contract</DialogTitle>
+        <DialogTitle>New Transaction</DialogTitle>
         <DialogContent>
-          <ContractForm />
+          <TransactionForm />
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default Contracts;
+export default Transactions;
