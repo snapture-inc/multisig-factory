@@ -1,32 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-
-import { PasskeyArgType } from '@safe-global/protocol-kit';
-
-import { createPasskey, storePasskeyInLocalStorage } from '@/app/_lib/passkey';
-import Login from '@/app/components/Login';
-import SafeAccountDetails from '@/app/components/SafeAccountDetails';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useAccount } from 'wagmi';
 
 const Home = () => {
-  const [selectedPasskey, setSelectedPasskey] = useState<PasskeyArgType>();
+  const { address, isConnected } = useAccount();
+  const router = useRouter();
 
-  async function handleCreatePasskey() {
-    const passkey = await createPasskey();
-
-    storePasskeyInLocalStorage(passkey);
-    setSelectedPasskey(passkey);
-  }
-
-  return (
-    <>
-      {selectedPasskey ? (
-        <SafeAccountDetails passkey={selectedPasskey} />
-      ) : (
-        <Login handleCreatePasskey={handleCreatePasskey} />
-      )}
-    </>
-  );
+  useEffect(() => {
+    if (isConnected && address) {
+      router.push('/projects');
+    }
+  });
+  return <></>;
 };
 
 export default Home;

@@ -15,7 +15,7 @@ const Login = ({ handleCreatePasskey }: props) => {
   async function handleConnect() {
     try {
       const accounts = await sdk?.connect();
-      if (connected && accounts) router.push('/contracts');
+      if (connected && accounts) router.push('/projects');
     } catch (err) {
       console.warn('Failed to connect.', err);
     }

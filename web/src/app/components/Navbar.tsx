@@ -1,35 +1,17 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
-import { useSDK } from '@metamask/sdk-react';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
-import { formatAddress } from '@/app/_lib/utils';
-
-export default function Navbar() {
+const Navbar = () => {
   const router = useRouter();
-  const [account, setAccount] = useState<string>();
-  const { sdk } = useSDK();
-
-  useEffect(() => {
-    const fetchAccount = async () => {
-      try {
-        const accounts = await sdk?.connect();
-        setAccount(accounts?.[0]);
-      } catch (err) {
-        console.warn('failed to connect..', err);
-      }
-    };
-    fetchAccount();
-  }, [sdk]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -46,11 +28,13 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Contracts
+            Snapture
           </Typography>
-          <Button color="inherit">{formatAddress(account)}</Button>
+          <ConnectButton />
         </Toolbar>
       </AppBar>
     </Box>
   );
-}
+};
+
+export default Navbar;

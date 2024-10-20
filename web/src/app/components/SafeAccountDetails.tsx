@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import PhotoIcon from '@mui/icons-material/Photo';
-import { Button, CircularProgress, Link, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import { CircularProgress, Link, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import { PasskeyArgType } from '@safe-global/protocol-kit';
 import { Safe4337Pack } from '@safe-global/relay-kit';
 
 import { BUNDLER_URL, CHAIN_NAME, RPC_URL } from '@/app/_lib/constants';
-import { mintNFT } from '@/app/_lib/mintNft';
 
 type props = {
   passkey: PasskeyArgType;
@@ -44,16 +42,6 @@ const SafeAccountDetails = ({ passkey }: props) => {
     showSafeInfo();
   }, [showSafeInfo]);
 
-  async function handleMintNFT() {
-    setIsLoading(true);
-
-    const userOp = await mintNFT(passkey, safeAddress!);
-
-    setIsLoading(false);
-    setIsSafeDeployed(true);
-    setUserOp(userOp);
-  }
-
   const safeLink = `https://app.safe.global/home?safe=sep:${safeAddress}`;
   const jiffscanLink = `https://jiffyscan.xyz/userOpHash/${userOp}?network=${CHAIN_NAME}`;
 
@@ -80,10 +68,6 @@ const SafeAccountDetails = ({ passkey }: props) => {
             </Typography>
 
             {!isSafeDeployed && <PendingDeploymentLabel />}
-
-            <Button onClick={handleMintNFT} startIcon={<PhotoIcon />} variant="outlined" sx={{ margin: '24px' }}>
-              Mint NFT
-            </Button>
 
             {userOp && (
               <Typography textAlign={'center'}>

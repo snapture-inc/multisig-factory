@@ -15,6 +15,6 @@ export const formatAddress = (addr: string | undefined) => {
 export const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'SGD',
+    currency: 'USD',
   }).format(amount);
 };
