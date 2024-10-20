@@ -3,7 +3,7 @@ pragma solidity ^0.8.27;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract WhitelistMananger is Ownable {
+contract WhiteList is Ownable {
     mapping(address attester => bool allowed) public whitelist;
 
     error UnauthorizedAttester();

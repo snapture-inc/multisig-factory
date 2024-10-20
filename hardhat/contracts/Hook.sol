@@ -195,7 +195,7 @@ contract Hook is ISPHook, WhiteList, ReentrancyGuard {
         debugMessage = "finalizeJob: mint NFT";
         // mint NFT
         string memory tokenUri = project.jobs[jobId].metadata;
-        ISnaptureNFT(nft).mint(job.minter, projectId, jobId, tokenUri);
+        INft(nft).mint(job.minter, projectId, jobId, tokenUri);
         debugMessage = "finalizeJob: transfer USDC";
         // release fund
         IERC20(usdc).transfer(project.jobs[jobId].minter, project.amount);

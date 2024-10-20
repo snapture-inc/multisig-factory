@@ -55,7 +55,7 @@ contract Nft is ERC721URIStorage, Ownable {
     ) external view returns (uint256) {
         uint256 _tokenId = tokenIdByProjectAndJob[projectId][jobId];
         require(
-            _exists(_tokenId),
+            _ownerOf(tokenId) != address(0),
             "Token does not exist for the given projectId and jobId"
         );
         return _tokenId;
