@@ -10,31 +10,49 @@ import { config } from '@/app/_lib/networkConfig';
 import { formatAddress } from '@/app/_lib/utils';
 import { useEthersSigner } from '@/app/_lib/wagmi-signer';
 
+type Token = {
+  tokenUri: string;
+  tokenId: number;
+};
+
 const Nft = ({ jobId }: { jobId: string }) => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState<Token>();
   const { project: projectId, job: jobName } = useParams();
   const { address, chainId } = useAccount();
   const signer = useEthersSigner();
+
   useEffect(() => {
     const fetchNfts = async () => {
       if (!chainId) return;
+
       const nftContractFactory = new Nft__factory(signer);
       const nftContract = nftContractFactory.attach(
         config[chainId?.toString() as keyof typeof config].nftContractAddress
       );
 
+      const totalSupplyFunc = nftContract.getFunction('totalSupply');
       const tokenUriFunc = nftContract.getFunction('tokenURI');
+      const getTokenIdByProjectAndJobFunc = nftContract.getFunction('getTokenIdByProjectAndJob');
 
       try {
-        const tokenResponse = await tokenUriFunc(projectId + jobId);
-        return tokenResponse;
+        const totalSupply = await totalSupplyFunc();
+        if (totalSupply === BigInt(0)) return undefined;
+
+        const tokenId = await getTokenIdByProjectAndJobFunc(BigInt(projectId as string), BigInt(jobId));
+        if (!tokenId) return undefined;
+
+        const tokenUri = await tokenUriFunc(tokenId);
+        return { tokenUri, tokenId };
       } catch {
-        return null;
+        return undefined;
       }
     };
 
     const interval = setInterval(() => {
-      fetchNfts().then((res) => setToken(res));
+      fetchNfts().then((res) => {
+        if (!res) setToken(undefined);
+        setToken(res);
+      });
     }, 5000);
 
     return () => clearInterval(interval);
@@ -44,13 +62,13 @@ const Nft = ({ jobId }: { jobId: string }) => {
     return (
       <Link
         target="_blank"
-        href={`https://gnosis-chiado.blockscout.com/token/0xA7175491676FA1c205fbc2215E4eEABeE2927f2b/instance/${projectId + jobId}`}
+        href={`https://sepolia.etherscan.io/nft/0x5230B61438C3f1b309E2b924dBf6FAFa33bbB73e/${Number(token.tokenId)}`}
       >
-        {formatAddress(token.replace('https://gateway.pinata.cloud/ipfs/', '').toString())}
+        {formatAddress(token.tokenUri.replace('https://gateway.pinata.cloud/ipfs/', '').toString())}
       </Link>
     );
 
-  return <></>;
+  return <>-</>;
 };
 
 export default Nft;

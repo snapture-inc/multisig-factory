@@ -1,18 +1,15 @@
 'use client';
 
-import ethers from 'ethers';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Address } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
 import { useAccount } from 'wagmi';
 
 import { EvmChains, OnChainClientOptions, SignProtocolClient, SpMode } from '@ethsign/sp-sdk';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { Hook__factory, Nft__factory } from '@/../typechain';
+import { Hook__factory } from '@/../typechain';
 import { config } from '@/app/_lib/networkConfig';
 import { formatAddress, formatCurrency } from '@/app/_lib/utils';
 import { useEthersSigner } from '@/app/_lib/wagmi-signer';
@@ -40,9 +37,9 @@ const JobsTable = () => {
   const [signClient, setSignClient] = useState<SignProtocolClient>();
 
   useEffect(() => {
+    // TODO: change chain based on chainId
     const newClient = new SignProtocolClient(SpMode.OnChain, {
       chain: EvmChains.sepolia,
-      account: signer,
     } as OnChainClientOptions);
 
     setSignClient(newClient);
